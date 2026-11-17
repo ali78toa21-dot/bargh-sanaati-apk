@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080d18">
+<meta name="description" content="نرم‌افزار مدیریت مشتریان و صدور فاکتور برق صنعتی">
+<title>نرم‌افزار مشتری برق صنعتی - نسخه مستقل وب</title>
+<style>
+:root{--bg:#080d18;--panel:#111b2c;--panel2:#17243a;--blue:#168cff;--cyan:#48c7ff;--text:#eef5ff;--muted:#9aabc2;--line:#263953;--danger:#ff647c}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#080d18,#0b1424 55%,#07101d);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+header{padding:22px 18px 16px;background:#0c1525;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#0877e8,#35c7ff);display:grid;place-items:center;font-size:25px;color:#00162a;font-weight:bold;box-shadow:0 5px 22px #168cff44}
+h1{font-size:18px;margin:0 0 5px}.sub{font-size:11px;color:var(--muted)}
+nav{display:flex;gap:7px;overflow:auto;padding:12px 12px 4px;background:#0c1525;position:sticky;top:85px;z-index:2}
+nav button,.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px;padding:10px 13px;font:inherit;font-size:12px;white-space:nowrap}
+nav button.active,.primary{background:linear-gradient(135deg,#0877e8,#159eff);border-color:#168cff;color:white}
+main{padding:16px;max-width:760px;margin:auto}.view{display:none}.view.active{display:block}
+.card{background:linear-gradient(145deg,#121e31,#0f1929);border:1px solid var(--line);border-radius:17px;padding:16px;margin-bottom:13px;box-shadow:0 8px 25px #0002}
+h2{font-size:16px;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:14px;border-radius:14px;background:#0c1728;border:1px solid var(--line)}.stat b{display:block;font-size:19px;color:var(--cyan);margin-top:7px}.stat span{font-size:11px;color:var(--muted)}
+label{display:block;font-size:12px;color:#b9c9dd;margin:12px 0 6px}input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #30445f;background:#091321;color:var(--text);font:inherit;font-size:13px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{cursor:pointer}.primary{font-weight:bold}.danger{border-color:#713344;color:#ff9aaa}
+.item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.item:last-child{border:0}.muted{color:var(--muted);font-size:11px}.empty{color:var(--muted);font-size:12px;text-align:center;padding:18px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}td,th{padding:9px 5px;border-bottom:1px solid var(--line);text-align:right}th{color:var(--cyan)}
+footer{text-align:center;color:#657991;font-size:10px;padding:20px}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr}}
+@page{size:A5 portrait;margin:9mm}
+@media print{
+ body{background:white!important;color:#111!important}
+ header,nav,.no-print,footer{display:none!important}
+ main{padding:0!important;max-width:none!important;margin:0!important}
+ .view{display:none!important}#invoicePrint{display:block!important;color:#111!important}
+ #paper{background:#fff!important;color:#111!important;border:0!important;border-radius:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+ .invoice-sheet{font-family:Tahoma,Arial,sans-serif;color:#111!important;font-size:9pt}
+ .invoice-sheet *{color:#111}
+ .invoice-sheet table{border-collapse:collapse;width:100%;font-size:8.5pt}
+ .invoice-sheet th,.invoice-sheet td{border:1px solid #333;padding:6px 4px}
+ .invoice-sheet th{background:#ddd!important;font-weight:bold}
+}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">⚡</div><div><h1>نرم‌افزار مشتری برق صنعتی</h1><div class="sub">مدیریت مشتریان، فاکتورها و حساب‌ها — نسخه آفلاین</div></div></div></header>
+<nav class="no-print">
+<button class="active" data-tab="home">خانه</button><button data-tab="customers">مشتریان</button><button data-tab="invoices">فاکتورها</button><button data-tab="new">فاکتور جدید</button><button data-tab="settings">تنظیمات و پشتیبان</button>
+</nav>
+<main>
+<section id="home" class="view active">
+<div class="card"><h2>داشبورد</h2><div class="grid">
+<div class="stat"><span>تعداد مشتریان</span><b id="sCustomers">۰</b></div><div class="stat"><span>تعداد فاکتورها</span><b id="sInvoices">۰</b></div>
+<div class="stat"><span>جمع فاکتورها</span><b id="sTotal">۰</b><span id="currencyLabel"></span></div><div class="stat"><span>آخرین فعالیت</span><b style="font-size:13px">آماده استفاده</b></div></div></div>
+<div class="card"><h2>شروع سریع</h2><div class="actions"><button class="btn primary" onclick="tab('new')">＋ صدور فاکتور</button><button class="btn" onclick="tab('customers')">＋ ثبت مشتری</button></div></div>
+</section>
+<section id="customers" class="view">
+<div class="card"><h2>ثبت مشتری جدید</h2><label>نام مشتری / شرکت</label><input id="cName" placeholder="نام و نام خانوادگی یا شرکت"><div class="row"><div><label>شماره تماس</label><input id="cPhone" inputmode="tel" placeholder="09..."></div><div><label>شهر</label><input id="cCity" placeholder="شهر"></div></div><label>آدرس</label><textarea id="cAddress" rows="2" placeholder="آدرس مشتری (اختیاری)"></textarea><div class="actions"><button class="btn primary" id="customerSaveBtn" onclick="addCustomer()">ذخیره مشتری</button><button class="btn" onclick="clearCustomerForm()">انصراف / پاک‌کردن فرم</button></div></div>
+<div class="card"><h2>فهرست مشتریان</h2><div id="customerList"></div></div>
+</section>
+<section id="invoices" class="view"><div class="card"><h2>فاکتورهای ثبت‌شده</h2><div id="invoiceList"></div></div></section>
+<section id="new" class="view">
+<div class="card"><h2>صدور فاکتور</h2><label>عنوان این فاکتور (قابل تغییر برای هر فاکتور)</label><input id="invoiceTitle" placeholder="مثلاً فاکتور فروش / پیش‌فاکتور / صورت‌حساب"><div class="row"><div><label>شماره فاکتور</label><input id="invNo"></div><div><label>تاریخ شمسی</label><input id="invDate" type="text" inputmode="numeric" placeholder="۱۴۰۵/۰۱/۰۱"></div></div>
+<label>انتخاب مشتری</label><select id="invCustomer"><option value="">مشتری متفرقه / انتخاب نشده</option></select>
+<div class="row"><div><label>واحد پول</label><select id="invCurrency"><option value="تومان">تومان</option><option value="ریال">ریال</option></select></div><div><label>تخفیف</label><input id="invDiscount" type="text" inputmode="numeric" value="۰"></div></div>
+<label>شرح کالا یا خدمات</label><input id="lineDesc" placeholder="مثلاً نصب تابلو برق صنعتی">
+<div class="row"><div><label>تعداد</label><input id="lineQty" type="number" min="1" value="1"></div><div><label>واحد (برای همین ردیف)</label><input id="lineUnit" type="text" list="unitOptions" value="عدد" placeholder="واحد دلخواه"><datalist id="unitOptions"><option value="عدد"><option value="متر"><option value="مترمربع"><option value="مترمکعب"><option value="کیلوگرم"><option value="ساعت"><option value="دستگاه"><option value="سرویس"></datalist></div></div>
+<div><label>قیمت واحد</label><input id="linePrice" type="text" inputmode="numeric" placeholder="مثلاً ۱۲,۵۰۰,۰۰۰"></div>
+<div class="actions"><button class="btn" onclick="addLine()">＋ افزودن ردیف</button></div><div id="lineTable"></div>
+<div class="card" style="margin:12px 0;background:#101b2c">
+<h3 style="margin-top:0">مهر و امضای همین فاکتور</h3>
+<label>لوگوی همین فاکتور (اختیاری)</label><input id="invLogoFile" type="file" accept="image/*" onchange="loadInvoiceSpecificImage(event,'logo')">
+<label>تصویر مهر این فاکتور (اختیاری)</label><input id="invStampFile" type="file" accept="image/*" onchange="loadInvoiceSpecificImage(event,'stamp')">
+<label>تصویر امضای این فاکتور (اختیاری)</label><input id="invSignatureFile" type="file" accept="image/*" onchange="loadInvoiceSpecificImage(event,'signature')">
+<div class="muted">این مهر و امضا فقط روی همین فاکتور درج می‌شود و تنظیمات فاکتورهای دیگر را تغییر نمی‌دهد.</div>
+</div>
+<label>توضیحات</label><textarea id="invNote" rows="2" placeholder="توضیحات تکمیلی (اختیاری)"></textarea>
+<div class="actions"><button class="btn primary" id="invoiceSaveBtn" onclick="saveInvoice()">ذخیره فاکتور</button><button class="btn" onclick="previewInvoice()">پیش‌نمایش و چاپ / PDF</button><button class="btn" id="invoiceCancelBtn" style="display:none" onclick="cancelInvoiceEdit()">انصراف از ویرایش</button></div><div class="muted" style="margin-top:10px">برای ذخیره PDF، در پنجره چاپ گوشی گزینه «Save as PDF» را انتخاب کنید.</div></div>
+</section>
+<section id="settings" class="view">
+<div class="card"><h2>مشخصات فروشنده (در فاکتور چاپ می‌شود)</h2>
+<label>نام فروشگاه / عنوان</label><input id="sellerName" placeholder="نام فروشگاه یا کسب‌وکار">
+<div class="row"><div><label>تلفن فروشنده</label><input id="sellerPhone" placeholder="شماره تماس"></div><div><label>شماره حساب / شبا</label><input id="sellerAccount" placeholder="شماره حساب یا شبا"></div></div>
+<label>آدرس فروشنده</label><textarea id="sellerAddress" rows="2" placeholder="آدرس کسب‌وکار"></textarea>
+<label>عنوان دلخواه فاکتور پیش‌فرض</label><input id="docTitle" placeholder="مثلاً فاکتور خدمات، صورت‌حساب، پیش‌فاکتور"><div class="row"><div><label>عنوان بخش مشتری در فاکتور</label><input id="customerRole" placeholder="مثلاً کارفرما"></div><div><label>عنوان امضای شما</label><input id="sellerSignTitle" placeholder="مثلاً مهندس مهدیه"></div></div>
+<div class="row"><div><label>لوگوی فاکتور (بالا سمت چپ)</label><input id="logoFile" type="file" accept="image/*" onchange="loadInvoiceImage(event,'logo')"></div><div><label>تصویر مهر</label><input id="stampFile" type="file" accept="image/*" onchange="loadInvoiceImage(event,'stamp')"></div></div>
+<label>تصویر امضا (اختیاری)</label><input id="signatureFile" type="file" accept="image/*" onchange="loadInvoiceImage(event,'signature')">
+<div class="muted">تصاویر انتخاب‌شده در همین گوشی ذخیره می‌شوند و در فاکتور چاپ خواهند شد.</div>
+<div class="actions"><button class="btn primary" onclick="saveSeller()">ذخیره مشخصات فروشنده</button></div></div>
+<div class="card"><h2>تنظیمات</h2><label>واحد پول پیش‌فرض</label><select id="defaultCurrency" onchange="setCurrency(this.value)"><option>تومان</option><option>ریال</option></select><div class="muted">واحد پول هر فاکتور را نیز هنگام صدور می‌توانید جداگانه انتخاب کنید.</div></div>
+<div class="card"><h2>پشتیبان‌گیری و بازیابی</h2><p class="muted">اطلاعات روی همین گوشی ذخیره می‌شود. برای انتقال به گوشی دیگر، فایل پشتیبان بگیرید و در گوشی مقصد بازیابی کنید.</p><div class="actions"><button class="btn primary" onclick="backup()">دریافت فایل پشتیبان</button><label class="btn" style="margin:0">بازیابی پشتیبان<input type="file" accept="application/json" hidden onchange="restore(event)"></label></div></div>
+<div class="card"><h2>درباره برنامه</h2><div class="muted">نرم‌افزار مشتری برق صنعتی — نسخه اولیه آفلاین. اطلاعات فقط در حافظه مرورگر همین دستگاه نگهداری می‌شود؛ پاک‌کردن داده‌های مرورگر ممکن است اطلاعات را حذف کند، پس مرتب پشتیبان بگیرید.</div></div>
+</section>
+<section id="invoicePrint" class="view">
+<div class="card invoice-paper" id="paper"></div><div class="actions no-print"><button class="btn primary" onclick="window.print()">چاپ / ذخیره PDF</button><button class="btn" onclick="tab('invoices')">بازگشت</button></div>
+</section>
+</main><footer>طراحی‌شده برای مدیریت کارهای برق صنعتی</footer>
+<script>
+const $=id=>document.getElementById(id);let db=JSON.parse(localStorage.getItem('ebiz_db')||'{"customers":[],"invoices":[],"currency":"تومان","seller":{"name":"فاکتورساز","phone":"09137859105","address":"","account":""},"docTitle":"فاکتور"}');
+db.seller=db.seller||{name:"",phone:"",address:"",account:""};db.docTitle=db.docTitle||"فاکتور";db.assets=db.assets||{logo:'',stamp:'',signature:''};
+let lines=[];let currentPreview=null;let editingCustomerId=null;let editingInvoiceId=null;let invoiceAssets={logo:'',stamp:'',signature:''};
+function save(){localStorage.setItem('ebiz_db',JSON.stringify(db));render()}
+function fa(n){return Number(n||0).toLocaleString('fa-IR')}
+function digitsEn(s){return String(s??'').replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d))}
+function parseNum(v){let n=Number(digitsEn(String(v??'').replace(/[,٬،\s]/g,'')));return Number.isFinite(n)?n:0}
+function money(n,c){return fa(n)+' '+c}
+function gregorianToJalali(gy,gm,gd){
+ const gdm=[0,31,((gy%4===0&&gy%100!==0)||gy%400===0)?29:28,31,30,31,30,31,31,30,31,30,31];
+ let gy2=gm>2?gy+1:gy;
+ let days=355666+365*gy+Math.floor((gy2+3)/4)-Math.floor((gy2+99)/100)+Math.floor((gy2+399)/400)+gd;
+ for(let i=0;i<gm;i++) days+=gdm[i];
+ let jy=-1595+33*Math.floor(days/12053);days%=12053;
+ jy+=4*Math.floor(days/1461);days%=1461;
+ if(days>365){jy+=Math.floor((days-1)/365);days=(days-1)%365;}
+ let jm, jd;
+ if(days<186){jm=1+Math.floor(days/31);jd=1+(days%31);}
+ else{jm=7+Math.floor((days-186)/30);jd=1+((days-186)%30);}
+ return [jy,jm,jd];
+}
+function todayJalali(){let d=new Date(),j=gregorianToJalali(d.getFullYear(),d.getMonth()+1,d.getDate());return j.map(x=>String(x).padStart(2,'0')).join('/').replace(/^0/,'')}
+function formatMoneyInput(el){let raw=digitsEn(el.value).replace(/[^0-9]/g,'');el.value=raw?Number(raw).toLocaleString('en-US'):''}
+function bindMoneyInput(id){let el=$(id);el.addEventListener('input',()=>formatMoneyInput(el))}
+function tab(id){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='new')prepareInvoice();render()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+function setCurrency(v){db.currency=v;save()}
+function addCustomer(){let name=$('cName').value.trim();if(!name)return alert('نام مشتری را وارد کنید.');db.customers.push({id:Date.now(),name,phone:$('cPhone').value,city:$('cCity').value,address:$('cAddress').value});['cName','cPhone','cCity','cAddress'].forEach(x=>$(x).value='');save();alert('مشتری ذخیره شد.')}
+function prepareInvoice(){if(!editingInvoiceId){if(!lines.length){invoiceAssets={logo:'',stamp:'',signature:''};if($('invLogoFile'))$('invLogoFile').value='';if($('invStampFile'))$('invStampFile').value='';if($('invSignatureFile'))$('invSignatureFile').value='';}$('invoiceTitle').value=db.docTitle||'فاکتور';if(!$('invNo').value)$('invNo').value=String(db.invoices.length+1).padStart(4,'0');if(!$('invDate').value)$('invDate').value=todayJalali();$('invCurrency').value=db.currency;}let s=$('invCustomer');let selected=s.value;s.innerHTML='<option value="">مشتری متفرقه / انتخاب نشده</option>'+db.customers.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(selected)s.value=selected;drawLines()}
+function addLine(){let d=$('lineDesc').value.trim(),q=+$('lineQty').value,p=parseNum($('linePrice').value),u=$('lineUnit').value.trim()||'عدد';if(!d||q<=0||p<0||!$('linePrice').value)return alert('شرح، تعداد و قیمت را کامل کنید.');lines.push({d,q,u,p});$('lineDesc').value='';$('lineQty').value=1;$('lineUnit').value='عدد';$('linePrice').value='';drawLines()}
+function drawLines(){$('lineTable').innerHTML=lines.length?'<table><tr><th>شرح</th><th>تعداد</th><th>واحد</th><th>قیمت واحد</th><th>جمع</th><th></th></tr>'+lines.map((l,i)=>`<tr><td>${esc(l.d)}</td><td>${fa(l.q)}</td><td><input aria-label="واحد ردیف ${i+1}" list="unitOptions" value="${esc(l.u||'عدد')}" style="min-width:64px;padding:6px" onchange="lines[${i}].u=this.value.trim()||'عدد'"></td><td>${fa(l.p)}</td><td>${fa(l.q*l.p)}</td><td><button class="btn danger" onclick="lines.splice(${i},1);drawLines()">×</button></td></tr>`).join('')+'</table>':'<div class="empty">هنوز ردیفی اضافه نشده است.</div>'}
+function invoiceData(){let c=db.customers.find(x=>x.id==$('invCustomer').value);let subtotal=lines.reduce((s,l)=>s+l.q*l.p,0),discount=Math.max(0,parseNum($('invDiscount').value));return {no:$('invNo').value,date:$('invDate').value,title:$('invoiceTitle').value.trim()||db.docTitle||'فاکتور',customerRole:db.customerRole||'کارفرما',sellerSignTitle:db.sellerSignTitle||'مهندس مهدیه',customer:c?c.name:'مشتری متفرقه',phone:c?.phone||'',address:c?.address||'',currency:$('invCurrency').value,account:db.seller.account||'',sellerName:db.seller.name||'فاکتورساز',sellerPhone:db.seller.phone||'',sellerAddress:db.seller.address||'',logo:invoiceAssets.logo||db.assets.logo||'',stamp:invoiceAssets.stamp||'',signature:invoiceAssets.signature||'',lines:[...lines],subtotal,discount,total:Math.max(0,subtotal-discount),note:$('invNote').value}}
+function resetInvoiceForm(){editingInvoiceId=null;lines=[];invoiceAssets={logo:'',stamp:'',signature:''};['invLogoFile','invStampFile','invSignatureFile'].forEach(id=>$(id).value='');$('invNote').value='';$('invNo').value='';$('invDate').value='';$('invCustomer').value='';$('invDiscount').value='۰';$('invoiceSaveBtn').textContent='ذخیره فاکتور';$('invoiceCancelBtn').style.display='none';prepareInvoice()}
+function cancelInvoiceEdit(){if(!confirm('از ویرایش فاکتور خارج شوید؟ تغییرات ذخیره‌نشده از بین می‌رود.'))return;resetInvoiceForm();tab('invoices')}
+function saveInvoice(){if(!lines.length)return alert('حداقل یک ردیف به فاکتور اضافه کنید.');let d=invoiceData();let duplicate=db.invoices.some(x=>x.no===d.no && x.id!==editingInvoiceId);if(duplicate)return alert('شماره فاکتور تکراری است.');if(editingInvoiceId){let idx=db.invoices.findIndex(x=>x.id===editingInvoiceId);if(idx<0)return alert('فاکتور موردنظر پیدا نشد.');d.id=editingInvoiceId;db.invoices[idx]=d;save();alert('تغییرات فاکتور ذخیره شد.');}else{d.id=Date.now()+Math.floor(Math.random()*1000);db.invoices.unshift(d);save();alert('فاکتور ذخیره شد.');}resetInvoiceForm();tab('invoices')}
+function previewInvoice(){if(!lines.length)return alert('ابتدا ردیف‌های فاکتور را اضافه کنید.');currentPreview=invoiceData();showPaper(currentPreview);tab('invoicePrint')}
+function latin(v){return String(v??'').replace(/[۰-۹٠-٩]/g,ch=>{let a='۰۱۲۳۴۵۶۷۸۹',b='٠١٢٣٤٥٦٧٨٩';let i=a.indexOf(ch);return i>=0?String(i):String(b.indexOf(ch))})}
+function showPaper(d){
+ const n=x=>latin(Number(x||0).toLocaleString('en-US'));
+ const title=esc(d.title||'فاکتور'), role=esc(d.customerRole||db.customerRole||'کارفرما'), sign=esc(d.sellerSignTitle||db.sellerSignTitle||'مهندس مهدیه');
+ $('paper').innerHTML=`<div class="invoice-sheet" style="background:#fff;color:#111;padding:3px 2px;font-family:Tahoma,Arial,sans-serif;font-size:9pt;direction:rtl">
+ <div style="padding:2px 4px 9px;border-bottom:2px solid #333">
+  <div style="text-align:center;padding:4px 0 9px"><b style="font-size:13pt">${title}</b></div>
+  <div style="display:grid;grid-template-columns:130px minmax(0,1fr);align-items:center;gap:10px;min-height:76px;direction:ltr;width:100%">
+   <div style="text-align:left;direction:rtl;display:flex;justify-content:flex-start;align-items:center;justify-self:start;width:130px;min-height:65px">${d.logo?`<img src="${d.logo}" style="display:block;margin-right:auto;margin-left:0;max-width:115px;max-height:70px;object-fit:contain">`:''}</div>
+   <div style="text-align:right;direction:rtl;line-height:2;font-size:9pt;justify-self:end;width:100%"><div>صفحه 1 از 1</div><div>شماره: ${esc(latin(d.no))}</div><div>تاریخ: ${esc(latin(d.date))}</div></div>
+  </div>
+ </div>
+ <div style="display:grid;grid-template-columns:34px 1fr;border:1.5px solid #333;border-radius:9px;overflow:hidden;margin:8px 0 7px;min-height:62px">
+  <div style="background:#777;color:#fff;writing-mode:vertical-rl;text-align:center;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:8pt;padding:4px">${role}</div>
+  <div style="padding:7px 10px;text-align:right;line-height:1.9;font-size:9.5pt"><b>نام:</b> ${esc(d.customer)}<br><b>نشانی:</b> ${esc(d.address||'—')}<br><b>تلفن:</b> ${esc(latin(d.phone||'—'))}</div>
+ </div>
+ <table style="width:100%;border-collapse:collapse;font-size:8.5pt;table-layout:fixed">
+ <thead><tr><th style="width:6%">ردیف</th><th>شرح</th><th style="width:9%">تعداد</th><th style="width:11%">واحد</th><th style="width:18%">قیمت واحد</th><th style="width:21%">قیمت کل (${esc(d.currency)})</th></tr></thead>
+ <tbody>${d.lines.map((l,i)=>`<tr><td style="text-align:center">${i+1}</td><td style="text-align:right">${esc(l.d)}</td><td style="text-align:center">${n(l.q)}</td><td style="text-align:center">${esc(l.u||'عدد')}</td><td style="text-align:center;direction:ltr">${n(l.p)}</td><td style="text-align:center;direction:ltr">${n(l.q*l.p)}</td></tr>`).join('')}
+ <tr style="background:#ddd"><td colspan="2" style="text-align:right;font-weight:bold">جمع فاکتور</td><td style="text-align:center">${n(d.lines.reduce((s,l)=>s+l.q,0))}</td><td></td><td colspan="2" style="text-align:center;direction:ltr;font-weight:bold">${n(d.subtotal)}</td></tr></tbody></table>
+ <div style="display:flex;flex-wrap:nowrap;justify-content:space-around;gap:6px;border:1px solid #333;border-top:0;padding:7px 5px;font-size:8.5pt;line-height:1.5;text-align:center">
+  <div>تخفیف: <b style="direction:ltr;display:inline-block">${n(d.discount)}</b></div>
+  <div>مالیات (0%): <b style="direction:ltr;display:inline-block">0</b></div>
+  <div>بدهی قبلی: <b style="direction:ltr;display:inline-block">0</b></div>
+ </div>
+ <div style="display:grid;grid-template-columns:33% 67%;border:1.5px solid #333;border-top:0;border-radius:0 0 9px 9px;padding:7px 8px;font-size:9pt;font-weight:bold;align-items:center"><div></div><div>مبلغ قابل پرداخت: ${n(d.total)} ${esc(d.currency)}</div></div>
+ <div style="text-align:center;margin:8px 0 13px;font-size:9pt"><b>شماره حساب:</b> ${esc(latin(d.account||'........................................'))}</div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 5px 0;font-size:9pt;min-height:85px">
+  <div style="text-align:center;padding:4px"><b>امضای ${role}</b><div style="height:58px;display:flex;align-items:center;justify-content:center">${d.signature?`<img src="${d.signature}" style="max-width:130px;max-height:55px;object-fit:contain">`:''}</div></div>
+  <div style="text-align:center;padding:4px"><b>مهر و امضای ${sign}</b><div style="height:58px;display:flex;align-items:center;justify-content:center;gap:8px">${d.stamp?`<img src="${d.stamp}" style="max-width:130px;max-height:58px;object-fit:contain">`:''}</div></div>
+ </div>
+ <div style="margin-top:9px;font-size:8pt;text-align:center">${esc(d.sellerName||'')} ${d.sellerPhone?' - '+esc(latin(d.sellerPhone)):''}</div>
+ </div>`;
+}
+function render(){ $('sCustomers').textContent=fa(db.customers.length);$('sInvoices').textContent=fa(db.invoices.length);$('sTotal').textContent=fa(db.invoices.reduce((s,x)=>s+x.total,0));$('currencyLabel').textContent=db.currency;$('defaultCurrency').value=db.currency;
+$('customerList').innerHTML=db.customers.length?db.customers.map(c=>`<div class="item"><div><b>${esc(c.name)}</b><div class="muted">${esc(c.phone||'بدون شماره')} ${c.city?'· '+esc(c.city):''}</div></div><button class="btn" onclick="editCustomer(${c.id})">ویرایش</button><button class="btn danger" onclick="delCustomer(${c.id})">حذف</button></div>`).join(''):'<div class="empty">هنوز مشتری ثبت نشده است.</div>';
+$('invoiceList').innerHTML=db.invoices.length?db.invoices.map((x,i)=>`<div class="item"><div><b>فاکتور ${esc(x.no)} — ${esc(x.customer)}</b><div class="muted">${esc(x.date)} · ${money(x.total,x.currency)}</div></div><div class="actions"><button class="btn" onclick="openSaved(${i})">مشاهده</button><button class="btn primary" onclick="editSavedInvoice(${i})">ویرایش</button><button class="btn danger" onclick="deleteSavedInvoice(${i})">حذف</button></div></div>`).join(''):'<div class="empty">هنوز فاکتوری ثبت نشده است.</div>'}
+
+function openSaved(i){let d=db.invoices[i];if(!d)return;currentPreview=d;showPaper(d);tab('invoicePrint')}
+function editSavedInvoice(i){let d=db.invoices[i];if(!d)return;editingInvoiceId=d.id||(d.id=Date.now()+i);lines=(d.lines||[]).map(l=>({...l}));invoiceAssets={logo:d.logo||'',stamp:d.stamp||'',signature:d.signature||''};$('invoiceTitle').value=d.title||'فاکتور';$('invNo').value=d.no||'';$('invDate').value=d.date||'';$('invCurrency').value=d.currency||db.currency;$('invDiscount').value=Number(d.discount||0).toLocaleString('en-US');$('invNote').value=d.note||'';['invLogoFile','invStampFile','invSignatureFile'].forEach(id=>$(id).value='');prepareInvoice();let c=db.customers.find(x=>x.name===d.customer);$('invCustomer').value=c?String(c.id):'';$('invoiceSaveBtn').textContent='ذخیره تغییرات فاکتور';$('invoiceCancelBtn').style.display='inline-flex';tab('new');$('invoiceTitle').value=d.title||'فاکتور';$('invNo').value=d.no||'';$('invDate').value=d.date||'';$('invCurrency').value=d.currency||db.currency;$('invDiscount').value=Number(d.discount||0).toLocaleString('en-US');$('invNote').value=d.note||'';$('invCustomer').value=c?String(c.id):'';drawLines();window.scrollTo({top:0,behavior:'smooth'})}
+function deleteSavedInvoice(i){let d=db.invoices[i];if(!d)return;if(!confirm(`فاکتور شماره ${d.no||''} حذف شود؟ این عملیات قابل بازگشت نیست.`))return;db.invoices.splice(i,1);save();alert('فاکتور حذف شد.')}
+function clearCustomerForm(){editingCustomerId=null;['cName','cPhone','cCity','cAddress'].forEach(x=>$(x).value='');$('customerSaveBtn').textContent='ذخیره مشتری'}
+function editCustomer(id){let c=db.customers.find(x=>x.id===id);if(!c)return;editingCustomerId=id;$('cName').value=c.name;$('cPhone').value=c.phone||'';$('cCity').value=c.city||'';$('cAddress').value=c.address||'';$('customerSaveBtn').textContent='ذخیره تغییرات';window.scrollTo({top:0,behavior:'smooth'})}
+function loadInvoiceImage(event,key){const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith('image/'))return alert('لطفاً فایل تصویری انتخاب کنید.');const reader=new FileReader();reader.onload=()=>{db.assets=db.assets||{logo:'',stamp:'',signature:''};db.assets[key]=reader.result;save();alert('تصویر ذخیره شد.');};reader.readAsDataURL(file)}
+function loadInvoiceSpecificImage(event,key){
+ const file=event.target.files&&event.target.files[0];if(!file)return;
+ if(!file.type.startsWith('image/'))return alert('لطفاً فایل تصویری انتخاب کنید.');
+ const reader=new FileReader();reader.onload=()=>{invoiceAssets[key]=reader.result;alert(key==='logo'?'لوگوی این فاکتور انتخاب شد.':key==='stamp'?'مهر این فاکتور انتخاب شد.':'امضای این فاکتور انتخاب شد.');};
+ reader.readAsDataURL(file);
+}
+function saveSeller(){db.seller={name:$('sellerName').value.trim(),phone:$('sellerPhone').value.trim(),address:$('sellerAddress').value.trim(),account:$('sellerAccount').value.trim()};db.docTitle=$('docTitle').value.trim()||'فاکتور';db.customerRole=$('customerRole').value.trim()||'کارفرما';db.sellerSignTitle=$('sellerSignTitle').value.trim()||'مهندس مهدیه';save();alert('مشخصات فروشنده ذخیره شد.')}
+
+function delCustomer(id){if(confirm('این مشتری حذف شود؟')){db.customers=db.customers.filter(c=>c.id!==id);save()}}
+function backup(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='poshtiban-bargh-sanaati.json';a.click();URL.revokeObjectURL(a.href)}
+function restore(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.customers)||!Array.isArray(x.invoices))throw 0;if(confirm('اطلاعات فعلی با فایل پشتیبان جایگزین شود؟')){db=x;save();alert('بازیابی انجام شد.')}}catch(_){alert('فایل پشتیبان معتبر نیست.')}};r.readAsText(f)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+bindMoneyInput('linePrice');bindMoneyInput('invDiscount');$('sellerName').value=db.seller.name||'';$('sellerPhone').value=db.seller.phone||'';$('sellerAddress').value=db.seller.address||'';$('sellerAccount').value=db.seller.account||'';$('docTitle').value=db.docTitle||'فاکتور';$('customerRole').value=db.customerRole||'کارفرما';$('sellerSignTitle').value=db.sellerSignTitle||'مهندس مهدیه';render();
+</script></body></html>

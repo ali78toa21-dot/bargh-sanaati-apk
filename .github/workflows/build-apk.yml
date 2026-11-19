@@ -43,6 +43,11 @@ jobs:
           unzip -q "$RUNNER_TEMP/gradle.zip" -d "$RUNNER_TEMP"
           echo "$RUNNER_TEMP/gradle-8.9/bin" >> "$GITHUB_PATH"
 
+      - name: Install custom launcher icon
+        run: |
+          mkdir -p app/src/main/res/mipmap-nodpi
+          base64 --decode .github/icon128.b64 > app/src/main/res/mipmap-nodpi/ic_launcher.jpg
+
       - name: Build APK
         run: gradle --no-daemon assembleDebug
 

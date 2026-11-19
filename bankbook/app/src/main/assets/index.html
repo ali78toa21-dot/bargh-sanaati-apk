@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08111f">
+<title>دفترچه هوشمند بانکی</title>
+<style>
+:root{--bg:#08111f;--panel:#101d30;--panel2:#14243a;--line:#263b56;--blue:#19b9ff;--text:#f1f6fc;--muted:#9aabc0;--red:#ff657a;--green:#4bd6a0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#12243b 0,#08111f 58%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:#16456a;color:white;font-weight:700}button:hover{filter:brightness(1.12)}button.secondary{background:#26364c}button.danger{background:#632d3b}button.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.wrap{max-width:1000px;margin:auto;padding:20px 15px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#16baff,#15528c);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 28px #008bd344}.brand h1{font-size:20px;margin:0 0 4px}.brand p{font-size:12px;color:var(--muted);margin:0}.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}.stat,.card,.box{background:linear-gradient(145deg,#13233a,#0e1a2b);border:1px solid var(--line);border-radius:17px;padding:15px}.stat b{display:block;font-size:22px;color:var(--blue);margin-bottom:4px}.stat span{font-size:12px;color:var(--muted)}
+.toolbar{display:flex;gap:10px;margin:15px 0}.search{flex:1}.input{width:100%;background:#091524;border:1px solid var(--line);color:var(--text);padding:13px 14px;border-radius:12px;outline:none}.input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #19b9ff20}.input::placeholder{color:#71849c}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.person{background:linear-gradient(145deg,#14253d,#0e1a2b);border:1px solid var(--line);border-radius:16px;padding:15px;min-width:0}.person-head{display:flex;justify-content:space-between;gap:10px}.person h3{margin:0 0 5px;font-size:17px}.sub{font-size:12px;color:var(--muted);line-height:1.8}.tag{font-size:11px;color:#7bd7ff;background:#12334d;padding:5px 8px;border-radius:30px;height:max-content;white-space:nowrap}
+.cards{margin-top:12px;display:grid;gap:8px}.bankrow{display:flex;align-items:center;gap:10px;background:#091625;border:1px solid #20344c;border-radius:12px;padding:10px;min-width:0}.bankicon{width:35px;height:35px;flex:none;border-radius:10px;background:#123e60;color:#75d8ff;display:grid;place-items:center;font-size:18px}.bankinfo{min-width:0;flex:1}.bankinfo b{display:block;font-size:12px;margin-bottom:5px}.bankinfo small{color:var(--muted);font-size:12px;direction:ltr;display:block;text-align:right;letter-spacing:.5px}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.actions button{font-size:12px;padding:9px 11px}
+.empty{text-align:center;color:var(--muted);padding:45px 12px;border:1px dashed var(--line);border-radius:16px;grid-column:1/-1}
+.modal{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:16px;z-index:5}.modal.show{display:flex}.dialog{width:min(100%,500px);max-height:90vh;overflow:auto;background:#101e31;border:1px solid #34506f;border-radius:18px;padding:19px;box-shadow:0 20px 80px #0009}.dialog h2{margin:0 0 15px;font-size:19px}.form{display:grid;gap:10px}.form label{font-size:12px;color:var(--muted)}.form input,.form textarea{margin-top:6px}.form textarea{min-height:70px;resize:vertical}.dialog-actions{display:flex;gap:8px;margin-top:15px}.dialog-actions button{flex:1}.hint{color:var(--muted);font-size:11px;line-height:1.8}.notice{padding:11px 13px;border-radius:12px;background:#102e43;color:#a9e6ff;font-size:12px;line-height:1.8;margin-bottom:14px}.hidden{display:none!important}.footer{text-align:center;color:#60738b;font-size:11px;margin-top:24px}
+@media(max-width:650px){.wrap{padding:14px 12px 45px}.top{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions button{flex:1}.stats{gap:7px}.stat{padding:11px}.stat b{font-size:19px}.grid{grid-template-columns:1fr}.toolbar{flex-direction:column}.brand h1{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+ <div class="brand"><div class="logo">🏦</div><div><h1>دفترچه هوشمند بانکی</h1><p>مدیریت اشخاص و کارت‌ها • آفلاین و رمزگذاری‌شده</p></div></div>
+ <div class="top-actions"><button id="addBtn">＋ ثبت شخص</button><button class="secondary" id="backupBtn">پشتیبان‌گیری</button><button class="secondary" id="restoreBtn">بازیابی</button></div>
+</header>
+<div class="notice">🔒 اطلاعات این دفترچه در همین مرورگر و با رمز عبور شما رمزگذاری می‌شود. رمز را فراموش نکنید؛ بدون آن بازیابی اطلاعات ممکن نیست.</div>
+<section class="stats">
+ <div class="stat"><b id="peopleCount">۰</b><span>اشخاص ثبت‌شده</span></div>
+ <div class="stat"><b id="cardCount">۰</b><span>کارت‌های ثبت‌شده</span></div>
+ <div class="stat"><b id="bankCount">۰</b><span>بانک‌های شناسایی‌شده</span></div>
+</section>
+<div class="toolbar"><input id="search" class="input search" placeholder="جستجو با نام، موبایل یا شماره کارت…"><button class="ghost" id="clearSearch">پاک‌کردن</button></div>
+<main id="peopleList" class="grid"></main>
+<div class="footer">نسخه وب • داده‌ها فقط در مرورگر فعلی ذخیره می‌شوند</div>
+</div>
+
+<div class="modal" id="modal"><div class="dialog"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="dialog-actions" id="modalActions"></div></div></div>
+<input type="file" id="backupFile" accept=".bak,.json,application/octet-stream" class="hidden">
+
+<script>
+const BANKS={
+"603799":"بانک ملی","610433":"بانک ملت","991975":"بانک ملت","603769":"بانک صادرات",
+"627353":"بانک تجارت","585983":"بانک تجارت","589210":"بانک سپه","628023":"بانک مسکن",
+"603770":"بانک کشاورزی","639217":"بانک کشاورزی","589463":"بانک رفاه","627760":"پست بانک",
+"621986":"بانک سامان","502229":"بانک پاسارگاد","639347":"بانک پاسارگاد",
+"622106":"بانک پارسیان","639194":"بانک پارسیان","627884":"بانک پارسیان","627412":"بانک اقتصاد نوین",
+"639607":"بانک سرمایه","639346":"بانک سینا","502806":"بانک شهر","504706":"بانک شهر",
+"502938":"بانک دی","505416":"بانک گردشگری","505785":"بانک ایران‌زمین","627961":"بانک صنعت و معدن",
+"627648":"بانک توسعه صادرات","207177":"بانک توسعه صادرات","502908":"بانک توسعه تعاون",
+"606373":"بانک قرض‌الحسنه مهر ایران","504172":"بانک قرض‌الحسنه رسالت",
+"505809":"بانک خاورمیانه","585947":"بانک خاورمیانه","502910":"بانک کارآفرین","627488":"بانک کارآفرین",
+"627381":"بانک انصار (قدیمی)","639599":"بانک قوامین (قدیمی)","636949":"بانک حکمت ایرانیان (قدیمی)",
+"639370":"بانک مهر اقتصاد (قدیمی)","505801":"مؤسسه کوثر (قدیمی)"
+};
+const $=id=>document.getElementById(id);
+let people=[],masterKey=null, salt=null, editingId=null;
+const enc=new TextEncoder(), dec=new TextDecoder();
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const uid=()=>Date.now()+Math.floor(Math.random()*100000);
+function bank(n){return BANKS[n.slice(0,6)]||"بانک شناسایی نشد"}
+function mask(n){return n.length===16?`${n.slice(0,4)}-${n.slice(4,6)}**-****-${n.slice(-4)}`:n}
+function fa(n){return String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])}
+async function derive(password,s){const key=await crypto.subtle.importKey("raw",enc.encode(password),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:s,iterations:220000,hash:"SHA-256"},key,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function encryptData(obj,key){const iv=crypto.getRandomValues(new Uint8Array(12));const data=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify(obj)));return {iv:b64(iv),data:b64(data)}}
+async function decryptData(blob,key){const out=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(blob.iv)},key,unb64(blob.data));return JSON.parse(dec.decode(out))}
+function showModal(title,body,buttons){$("modalTitle").textContent=title;$("modalBody").innerHTML=body;$("modalActions").innerHTML="";buttons.forEach(b=>{const el=document.createElement("button");el.textContent=b.label;el.className=b.cls||"";el.onclick=b.fn;$("modalActions").append(el)});$("modal").classList.add("show")}
+function closeModal(){$("modal").classList.remove("show")}
+function init(){
+ const raw=localStorage.getItem("bankbook.v1");
+ if(!raw){showPasswordSetup();return}
+ const meta=JSON.parse(raw);salt=unb64(meta.salt);
+ showModal("بازکردن دفترچه",`<div class="form"><label>رمز عبور<input id="unlockPass" class="input" type="password" autocomplete="current-password" placeholder="رمز عبور دفترچه"></label><p class="hint">اطلاعات قبلی فقط با رمز اولیه قابل بازکردن است.</p><div id="unlockError" class="hint"></div></div>`,[{label:"ورود",fn:unlock},{label:"پاک‌کردن اطلاعات ذخیره‌شده",cls:"danger",fn:resetData}]);
+}
+function showPasswordSetup(){showModal("ساخت دفترچه امن",`<div class="form"><p class="hint">برای شروع یک رمز عبور حداقل ۸ نویسه‌ای انتخاب کنید. این رمز برای رمزگذاری اطلاعات و پشتیبان‌گیری استفاده می‌شود.</p><label>رمز عبور جدید<input id="newPass" class="input" type="password" autocomplete="new-password"></label><label>تکرار رمز عبور<input id="confirmPass" class="input" type="password"></label><div id="setupError" class="hint"></div></div>`,[{label:"ایجاد دفترچه",fn:createVault}])}
+async function createVault(){const p=$("newPass").value,c=$("confirmPass").value;if(p.length<8||p!==c){$("setupError").textContent="رمز باید حداقل ۸ نویسه باشد و دو بار یکسان وارد شود.";return}salt=crypto.getRandomValues(new Uint8Array(16));masterKey=await derive(p,salt);localStorage.setItem("bankbook.v1",JSON.stringify({salt:b64(salt),blob:await encryptData([],masterKey)}));people=[];closeModal();render()}
+async function unlock(){try{const p=$("unlockPass").value;const meta=JSON.parse(localStorage.getItem("bankbook.v1"));masterKey=await derive(p,salt);people=await decryptData(meta.blob,masterKey);closeModal();render()}catch(e){$("unlockError").textContent="رمز عبور اشتباه است یا داده‌ها قابل خواندن نیستند."}}
+async function persist(){const meta=JSON.parse(localStorage.getItem("bankbook.v1"));meta.blob=await encryptData(people,masterKey);localStorage.setItem("bankbook.v1",JSON.stringify(meta));render()}
+function resetData(){showModal("حذف کامل اطلاعات",`<p>با این کار تمام اشخاص و کارت‌های ذخیره‌شده در این مرورگر برای همیشه حذف می‌شوند. فقط در صورت داشتن نسخه پشتیبان ادامه دهید.</p>`,[{label:"بازگشت",cls:"secondary",fn:init},{label:"حذف اطلاعات",cls:"danger",fn:()=>{localStorage.removeItem("bankbook.v1");people=[];masterKey=null;closeModal();showPasswordSetup()}}])}
+function render(){
+ $("peopleCount").textContent=fa(people.length);
+ const all=people.flatMap(p=>p.cards);$("cardCount").textContent=fa(all.length);
+ $("bankCount").textContent=fa(new Set(all.map(c=>bank(c.number)).filter(x=>x!=="بانک شناسایی نشد")).size);
+ const q=$("search").value.replace(/\s/g,"").toLowerCase();
+ const found=people.filter(p=>(p.name+p.phone+p.nationalId).replace(/\s/g,"").toLowerCase().includes(q)||p.cards.some(c=>c.number.includes(q)));
+ const list=$("peopleList");list.innerHTML="";
+ if(!found.length){list.innerHTML=`<div class="empty">${people.length?"نتیجه‌ای پیدا نشد.":"هنوز شخصی ثبت نکرده‌اید؛ از دکمه «ثبت شخص» شروع کنید."}</div>`;return}
+ found.forEach(p=>{
+  const el=document.createElement("article");el.className="person";
+  const head=document.createElement("div");head.className="person-head";
+  const info=document.createElement("div");info.innerHTML=`<h3></h3><div class="sub"></div>`;info.querySelector("h3").textContent=p.name;info.querySelector(".sub").textContent=(p.phone||"بدون موبایل")+" • "+fa(p.cards.length)+" کارت";
+  const tag=document.createElement("span");tag.className="tag";tag.textContent="شخص";head.append(info,tag);el.append(head);
+  const cards=document.createElement("div");cards.className="cards";
+  p.cards.forEach(c=>{const row=document.createElement("div");row.className="bankrow";const icon=document.createElement("div");icon.className="bankicon";icon.textContent="🏦";const bi=document.createElement("div");bi.className="bankinfo";const b=document.createElement("b");b.textContent=bank(c.number);const sm=document.createElement("small");sm.textContent=mask(c.number);bi.append(b,sm);const cp=document.createElement("button");cp.className="ghost";cp.textContent="کپی";cp.onclick=()=>copy(c.number);row.append(icon,bi,cp);cards.append(row)});
+  el.append(cards);
+  const actions=document.createElement("div");actions.className="actions";
+  const add=mk("＋ کارت",()=>cardDialog(p));const edit=mk("ویرایش",()=>personDialog(p));const del=mk("حذف","");del.className="danger";del.onclick=()=>deletePerson(p);
+  actions.append(add,edit,del);el.append(actions);list.append(el);
+ });
+}
+function mk(label,fn){const b=document.createElement("button");b.textContent=label;if(typeof fn==="function")b.onclick=fn;return b}
+async function copy(n){try{await navigator.clipboard.writeText(n);alert("شماره کارت کپی شد.")}catch(e){const t=document.createElement("textarea");t.value=n;document.body.append(t);t.select();document.execCommand("copy");t.remove();alert("شماره کارت کپی شد.")}}
+function personDialog(p=null){
+ showModal(p?"ویرایش مشخصات شخص":"ثبت شخص جدید",`<div class="form"><label>نام و نام خانوادگی<input id="pName" class="input" value="${esc(p?.name||"")}" placeholder="نام کامل"></label><label>شماره موبایل<input id="pPhone" class="input" inputmode="tel" value="${esc(p?.phone||"")}" placeholder="شماره موبایل"></label><label>کد ملی (اختیاری)<input id="pNid" class="input" inputmode="numeric" value="${esc(p?.nationalId||"")}" placeholder="کد ملی"></label><label>توضیحات<textarea id="pNotes" class="input" placeholder="یادداشت">${esc(p?.notes||"")}</textarea></label><div id="pError" class="hint"></div></div>`,[{label:"انصراف",cls:"secondary",fn:closeModal},{label:"ذخیره",fn:async()=>{const name=$("pName").value.trim();if(!name){$("pError").textContent="نام را وارد کنید.";return}if(p){Object.assign(p,{name,phone:$("pPhone").value.trim(),nationalId:$("pNid").value.trim(),notes:$("pNotes").value.trim()})}else people.unshift({id:uid(),name,phone:$("pPhone").value.trim(),nationalId:$("pNid").value.trim(),notes:$("pNotes").value.trim(),cards:[]});closeModal();await persist()}}]);
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function cardDialog(p,c=null){
+ showModal(c?"ویرایش شماره کارت":"افزودن شماره کارت",`<div class="form"><label>شماره کارت ۱۶ رقمی<input id="cardNumber" class="input" inputmode="numeric" maxlength="19" value="${c?c.number:""}" placeholder="شماره ۱۶ رقمی کارت"></label><div id="bankPreview" class="notice">با واردکردن ۶ رقم اول، بانک شناسایی می‌شود.</div><div id="cardError" class="hint"></div></div>`,[{label:"انصراف",cls:"secondary",fn:closeModal},{label:"ذخیره کارت",fn:async()=>{const n=$("cardNumber").value.replace(/\D/g,"");if(n.length!==16){$("cardError").textContent="شماره کارت باید دقیقاً ۱۶ رقم باشد.";return}if(people.some(x=>x.cards.some(y=>y.number===n&&y!==c))){$("cardError").textContent="این شماره کارت قبلاً ثبت شده است.";return}if(c)c.number=n;else p.cards.push({number:n});closeModal();await persist()}}]);
+ $("cardNumber").addEventListener("input",()=>{const n=$("cardNumber").value.replace(/\D/g,"");$("bankPreview").textContent=n.length>=6?"🏦 "+bank(n):"با واردکردن ۶ رقم اول، بانک شناسایی می‌شود."});
+}
+function deletePerson(p){showModal("حذف شخص",`<p>شخص «${esc(p.name)}» و تمام کارت‌هایش حذف شوند؟</p>`,[{label:"انصراف",cls:"secondary",fn:closeModal},{label:"حذف",cls:"danger",fn:async()=>{people=people.filter(x=>x.id!==p.id);closeModal();await persist()}}])}
+function backup(){const meta=JSON.parse(localStorage.getItem("bankbook.v1"));const payload=JSON.stringify({format:"bankbook-backup-v1",salt:meta.salt,blob:meta.blob});if(window.AndroidBackup){AndroidBackup.saveBackup(payload);return}const blob=new Blob([payload],{type:"application/octet-stream"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="bankbook-backup.bak";a.click();URL.revokeObjectURL(a.href)}
+function restoreFile(file){const reader=new FileReader();reader.onload=async()=>{try{const data=JSON.parse(reader.result);if(data.format!=="bankbook-backup-v1")throw Error();showModal("بازیابی نسخه پشتیبان",`<div class="form"><p class="hint">رمز عبوری را وارد کنید که هنگام ساخت این نسخه پشتیبان استفاده شده بود.</p><label>رمز پشتیبان<input id="backupPass" class="input" type="password"></label><div id="restoreError" class="hint"></div></div>`,[{label:"انصراف",cls:"secondary",fn:closeModal},{label:"بازیابی",fn:async()=>{try{const k=await derive($("backupPass").value,unb64(data.salt));const decoded=await decryptData(data.blob,k);if(!Array.isArray(decoded))throw Error();people=decoded;masterKey=k;salt=unb64(data.salt);localStorage.setItem("bankbook.v1",JSON.stringify({salt:data.salt,blob:data.blob}));closeModal();render();alert("بازیابی با موفقیت انجام شد.")}catch(e){$("restoreError").textContent="رمز اشتباه است یا فایل معتبر نیست."}}}])}catch(e){alert("فایل پشتیبان معتبر نیست.")}};reader.readAsText(file)}
+$("addBtn").onclick=()=>personDialog();$("search").oninput=render;$("clearSearch").onclick=()=>{$("search").value="";render()};$("backupBtn").onclick=()=>{if(!masterKey)return;backup()};$("restoreBtn").onclick=()=>{if(!masterKey)return;$("backupFile").click()};$("backupFile").onchange=e=>{if(e.target.files[0])restoreFile(e.target.files[0]);e.target.value=""};
+if(!window.crypto?.subtle){showModal("مرورگر پشتیبانی نمی‌شود",`<p>برای رمزگذاری امن، این برنامه باید در مرورگر به‌روز و در بستر امن (HTTPS یا localhost) اجرا شود.</p>`,[{label:"متوجه شدم",fn:closeModal}])}else init();
+</script>
+</body></html>

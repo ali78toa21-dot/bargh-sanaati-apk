@@ -1,4 +1,4 @@
-package com.mahdiyeh.electricinvoice;
+package com.mahdiyeh.checkyar;
 
 import android.app.Activity;
 import android.content.Intent;

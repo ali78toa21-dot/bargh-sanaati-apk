@@ -62,7 +62,13 @@ public class MainActivity extends Activity {
         });
 
         try {
-            String page = new String(getAssets().open("index.html").readAllBytes(), "UTF-8");
+            java.io.InputStream input = getAssets().open("index.html");
+            java.io.ByteArrayOutputStream buffer = new java.io.ByteArrayOutputStream();
+            byte[] chunk = new byte[8192];
+            int count;
+            while ((count = input.read(chunk)) != -1) buffer.write(chunk, 0, count);
+            input.close();
+            String page = buffer.toString("UTF-8");
             // A secure HTTPS origin enables WebCrypto (PBKDF2 + AES-GCM) inside WebView.
             webView.loadDataWithBaseURL("https://bankbook.local/", page, "text/html", "UTF-8", null);
         } catch (Exception e) {
